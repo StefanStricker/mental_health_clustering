@@ -85,5 +85,18 @@ for role in role_categories:
 # Drop original position columns
 df.drop(columns=["position", "position_mapped"], inplace=True)
 
+# Save 6 most common values for country_live and group others as other
+top_6_values_live = df["country_live"].value_counts().index[:6]
+df["country_live"] = df["country_live"].apply(lambda x: x if x in top_6_values_live else "Other")
+
+# Save 6 most common values for country_live and group others as other
+top_6_values_work = df["country_work"].value_counts().index[:6]
+df["country_work"] = df["country_work"].apply(lambda x: x if x in top_6_values_work else "Other")
+
+#label encode countries
+countries = ["country_work", "country_live"]
+df[countries] = enc.fit_transform(df[countries])
+
+df.drop(columns= ["us_state", "us_state_work"], inplace= True)
 
 df.to_csv("mh_data_feature_eng.csv", index = False)
