@@ -36,9 +36,15 @@ df["mh_benefits"] = df["mh_benefits"].map(coverage_mapping)
 ordinal_cols_notknow = ["mh_benefits", "mh_discussed","mh_resources", "mh_anonymity", "mh_ph_equality", "mh_history_family",]
 df[ordinal_cols_notknow] = enc.fit_transform(df[ordinal_cols_notknow])
 
-#label encoding for:Yes, No, I am not Sure | only 1 column
-df["mh_coverage"] = enc.fit_transform(df[["mh_coverage"]])
+#label encoding for features with unique answers
+ordinal_cols_unique = ["mh_coverage", "mh_medical_leave", "prev_emp_mh_benefits", "prev_emp_mh_benefits_awareness", 
+"prev_emp_mh_discussion", "prev_emp_mh_resources", "prev_emp_mh_anonymity", "prev_emp_mh_consequences",
+"prev_emp_ph_consequences", "prev_emp_mh_discussion_coworkers", "prev_emp_mh_discussion_supervisor",
+"prev_emp_mh_ph_equality", "prev_emp_mh_neg_consequences", "mh_issue_career", "mh_issue_coworker_view",
+"mh_share_family", "mh_obs_unsupportive_workplace", "mh_treatment_work_interference", "mh_no_treatment_work_interference",
+"remote", "gender"]
 
+df[ordinal_cols_unique] = enc.fit_transform(df[ordinal_cols_unique])
 
 # Role mapping dictionary
 role_mapping = {
@@ -80,4 +86,4 @@ for role in role_categories:
 df.drop(columns=["position", "position_mapped"], inplace=True)
 
 
-print(df.info())
+df.to_csv("mh_data_feature_eng.csv", index = False)
