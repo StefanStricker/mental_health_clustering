@@ -11,6 +11,11 @@ mh_impact.png
 mh_treatment.png
 missing_values.png
 remote.png
+Correlation Matrix Pearson.png
+Correlation Matrix spearman.png
+PCA_variance.png
+kmean_ata.csv
+elbow_method_plt.png
 
 kaggle.py
 
