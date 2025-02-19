@@ -15,7 +15,7 @@ df = pd.read_csv("mh_data_feature_eng.csv")
 selector = VarianceThreshold(threshold=0.4)
 Xs = selector.fit_transform(df)
 
-#print(selector.variances_)
+print(selector.variances_)
 #smallest variance ~1.27
 
 #Correlation Matrix

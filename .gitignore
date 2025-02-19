@@ -16,6 +16,12 @@ Correlation Matrix spearman.png
 PCA_variance.png
 kmean_ata.csv
 elbow_method_plot.png
+cluster_size.png
+elbow_method_plot_pca.png
+feature_dist.png
+Kmeans_clustering.png
+silhouette_plot.png
+
 
 kaggle.py
 

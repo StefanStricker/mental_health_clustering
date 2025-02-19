@@ -17,53 +17,25 @@ from mlxtend.plotting import plot_pca_correlation_graph
 
 df = pd.read_csv("kmean_ata.csv")
 
-#Create Elbow-Visualizer
-model = KMeans()
-visualizer = KElbowVisualizer(model, k=(1,8), timings=False)
-visualizer.fit(df)
-visualizer.show(outpath="elbow_method_plot.png")
-
-
 #Clustering
 
 #normalizing
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(df)
 
-#KMean
-#n_clusters = 3
-#kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
-#df["cluster"] = kmeans.fit_predict(X_scaled)
-#centers = kmeans.cluster_centers_
-#lab = kmeans.labels_
-#S = silhouette_score(X_scaled, lab)
-#print(S)
-
-#GMM
-#gmm = mixture.GaussianMixture(n_components=3, random_state=42)
-#gmm.fit(X_scaled)
-#lab_gmm = gmm.predict(X_scaled)
-#S_gmm = silhouette_score(X_scaled, lab_gmm)
-#print(S_gmm)
-
-#Agglomerative Clustering
-#agg = AgglomerativeClustering(n_clusters=3)
-#lab_agg = agg.fit_predict(X_scaled)
-#S_agg = silhouette_score(X_scaled, lab_agg)
-#print(S_agg)
-
 #PCA
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_scaled)
+print(pca.explained_variance_ratio_)
 
-# Run K-Means again
+#Run K-Means 
 kmeans_pca = KMeans(n_clusters=3, random_state=42, n_init=10)
 df["cluster"] = kmeans_pca.fit_predict(X_pca)
 labels_pca = df["cluster"]
 
-# Check silhouette score
+#Check silhouette score
 S_pca = (silhouette_score(X_pca, labels_pca))
-#print(S_pca)
+print(S_pca)
 
 #pca dataframe
 df_pca = pd.DataFrame(X_pca, columns=["PCA_1", "PCA_2"])
@@ -72,19 +44,6 @@ df_pca["Cluster"] = df["cluster"]
 visualizer = SilhouetteVisualizer(kmeans_pca, colors='yellowbrick')
 visualizer.fit(X_pca)
 visualizer.show(outpath = "silhouette_plot.png")
-
-#MDS
-#mds = MDS(n_components=2, random_state=42, dissimilarity="euclidean")
-#X_mds = mds.fit_transform(X_scaled)
-
-# Run K-Means again
-#kmeans_mds = KMeans(n_clusters=3, random_state=42, n_init=10)
-#labels_mds = kmeans_mds.fit_predict(X_mds)
-
-#Check silhouette score again
-#S_mds = (silhouette_score(X_pca, labels_mds))
-#print(S_mds)
-
 
 #Correlation Graph
 feature_names = df.drop(columns=["cluster"]).columns.tolist()
@@ -95,7 +54,7 @@ fig, cor_mat = plot_pca_correlation_graph(X_scaled,
                                           dimensions=(1, 2), 
                                           figure_axis_size=10)
 
-#print(cor_mat)
+print(cor_mat)
 
 #plot Kmeans clustering
 plt.figure(figsize=(8,6))
@@ -115,10 +74,10 @@ plt.pie(cluster_count, labels = cluster_count.index, autopct="%1.1f%%")
 plt.title("Cluster sizes")
 plt.savefig("cluster_size.png")
 
-# Get PCA loadings (how much each original feature contributes to the PCA components)
+#Get PCA loadings
 pca_loadings = pd.DataFrame(pca.components_.T, columns=["PCA_1", "PCA_2"], index=df.drop(columns=["cluster"]).columns)
 
-# Sort features by importance for each PCA component
+#Sort features by importance for each PCA component
 top_features_pca1 = pca_loadings["PCA_1"].abs().sort_values(ascending=False).head(10)
 top_features_pca2 = pca_loadings["PCA_2"].abs().sort_values(ascending=False).head(10)
 
@@ -128,12 +87,12 @@ print(top_features_pca1)
 print("Top Features Contributing to PCA Component 2:")
 print(top_features_pca2)
 
-# Select top contributing features from PCA loadings
+#Select top contributing features from PCA loadings
 top_features = top_features_pca1.index.tolist() + top_features_pca2.index.tolist()
 
-# Visualize feature distributions across clusters
+#Visualize feature distributions across clusters
 plt.figure(figsize=(12, 6))
-for feature in top_features[:5]:  # Only plot first 5 features for readability
+for feature in top_features[:6]:  #Only plot first 6 features for readability
     sns.boxplot(x=df["cluster"], y=df[feature])
     plt.title(f"Distribution of {feature} Across Clusters")
     plt.savefig("feature_dist.png")

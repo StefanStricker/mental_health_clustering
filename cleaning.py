@@ -24,7 +24,7 @@ df.columns = renamed_columns
 #cleaning gender columns since it has to many unique values
 def clean_gender(gender):
     
-    gender = str(gender).strip().lower()    
+    gender = str(gender).strip().lower()
     # Male variations
     male_variants = ["male", "m", "male-ish", "maile", "mal", "male (cis)", "make", "male ", "man","msle", "mail", "malr","cis man", "cis male"]
     
@@ -70,6 +70,9 @@ missing_summary = missing_percentage[missing_percentage > 0].sort_values(ascendi
 median_age = df["age"].median()
 df.loc[(df["age"] < 18) | (df["age"] > 100), "age"] = median_age
 
+mean_age = df["age"].median()
+print(mean_age)
+
 #replace null values in mh_coverage with mode
 df["mh_coverage"].fillna(df["mh_coverage"].mode()[0], inplace=True)
 
@@ -86,6 +89,5 @@ df.drop(columns=["future_emp_ph_interview_why", "future_emp_mh_interview_why", "
 #fill null values for people not living in the us
 df["us_state"].fillna("Not in the US", inplace=True)
 df["us_state_work"].fillna("Not in the US", inplace=True)
-
 
 df.to_csv("mh_data_cleaned.csv", index = False)
