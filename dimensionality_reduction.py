@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 from scipy import stats
 
 
-# Load dataset
+#Load dataset
 df = pd.read_csv("mh_data_feature_eng.csv")
 
 #Feature Variance
@@ -21,7 +21,7 @@ print(selector.variances_)
 #Correlation Matrix
 corr_matrix_pearson = df.corr(method= "pearson")
 
-# plt correlation Matrix pearsoon
+#plt correlation Matrix pearsoon
 plt.figure(figsize=(12, 8))
 sns.heatmap(corr_matrix_pearson, cmap="coolwarm", annot=False)
 plt.title("Correlation Matrix Pearson")
@@ -33,7 +33,7 @@ df.drop("country_work", axis = 1, inplace = True)
 #Correlation Matrix 
 corr_matrix_spearman = df.corr(method= "spearman")
 
-# plt correlation matrix spearman
+#plt correlation matrix spearman
 plt.figure(figsize=(12, 8))
 sns.heatmap(corr_matrix_spearman, cmap="coolwarm", annot=False)
 plt.title("Correlation Matrix spearman")

@@ -25,18 +25,18 @@ df.columns = renamed_columns
 def clean_gender(gender):
     
     gender = str(gender).strip().lower()
-    # Male variations
+    #Male variations
     male_variants = ["male", "m", "male-ish", "maile", "mal", "male (cis)", "make", "male ", "man","msle", "mail", "malr","cis man", "cis male"]
     
-    # Female variations
+    #Female variations
     female_variants = ["cis female", "f", "female", "woman",  "femake", "female ","cis-female/femme", "female (cis)", "femail"]
     
-    # Non-binary / Other
+    #Non-binary / Other
     nonbinary_variants = ["trans-female", "something kinda male?", "queer/she/they", "non-binary","nah", "all", "enby", "fluid", 
                           "genderqueer", "androgyne", "agender", "male leaning androgynous", "guy (-ish) ^_^", "trans woman", "neuter", 
                           "female (trans)", "queer", "ostensibly male, unsure what that really means", "p", "a little about you"]
 
-    # Map values
+    #Map values
     if gender in male_variants:
         return 'Male'
     elif gender in female_variants:
@@ -46,7 +46,7 @@ def clean_gender(gender):
     else:
         return 'Prefer not to say'
 
-# Apply function to Gender column
+#Apply function to Gender column
 df['gender'] = df['gender'].apply(clean_gender)
 
 #create heatmap of missing values
@@ -69,9 +69,6 @@ missing_summary = missing_percentage[missing_percentage > 0].sort_values(ascendi
 #replace outliers in age with the median
 median_age = df["age"].median()
 df.loc[(df["age"] < 18) | (df["age"] > 100), "age"] = median_age
-
-mean_age = df["age"].median()
-print(mean_age)
 
 #replace null values in mh_coverage with mode
 df["mh_coverage"].fillna(df["mh_coverage"].mode()[0], inplace=True)
