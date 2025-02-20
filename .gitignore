@@ -21,6 +21,7 @@ elbow_method_plot_pca.png
 feature_dist.png
 Kmeans_clustering.png
 silhouette_plot.png
+elbow.png
 
 
 kaggle.py

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv("mh_data_cleaned.csv")
 
-# Set plot style
+#Set plot style
 sns.set_style("whitegrid")
 
 #AGE DISTRIBUTION
